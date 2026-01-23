@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Progress | AwareU</title>
+
+<style>
+:root {
+  --primary:#1AA6A6;
+  --secondary: #6C63FF;
+  --bg: #f9fafb;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --text: #111827;
+  --muted: #6b7280;
+}
+
+/* ---------- Reset ---------- */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  width: 230px;
+  background: #ffffff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #eee;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1300;
+}
+
+.logo {
+  color: var(--primary);
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 10px;
+  color: #555;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  transition: 0.3s;
+}
+
+.sidebar nav a.active,
+.sidebar nav a:hover {
+  background: #e7f6f6;
+  color: var(--primary);
+}
+
+.logout {
+  margin-top: auto;
+  padding: 10px;
+  border: none;
+  background: #f2f2f2;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+
+/* ---------- Main Content ---------- */
+.main-content {
+  margin-left: 230px;
+  padding: 30px;
+}
+
+/* ---------- Header ---------- */
+.page-header h1 {
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+
+.page-header p {
+  color: var(--muted);
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+}
+
+.card-title {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.card-value {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+/* ---------- Grid ---------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 25px;
+}
+
+/* ---------- Progress Bar ---------- */
+.progress-container {
+  margin-top: 12px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  width: 0;
+  animation: fillProgress 1.4s ease-out forwards;
+}
+
+/* ---------- Achievements ---------- */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.achievement {
+  display: flex;
+  gap: 12px;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.achievement.unlocked {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  animation: unlockPop 0.6s ease-out forwards;
+}
+
+.achievement.locked {
+  background: #f3f4f6;
+  opacity: 0.5;
+  animation: lockFade 0.6s ease-out forwards;
+}
+
+.achievement-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.achievement.locked .achievement-icon {
+  background: #9ca3af;
+}
+
+.achievement h4 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.achievement p {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* ---------- Quiz List ---------- */
+.quiz-list {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quiz-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.quiz-score {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.quiz-meta {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ---------- Animations ---------- */
+@keyframes fillProgress {
+  from { width: 0%; }
+  to { width: var(--progress); }
+}
+
+@keyframes unlockPop {
+  0% { transform: scale(0.85); opacity: 0; }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes lockFade {
+  from { opacity: 0; }
+  to { opacity: 0.5; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .main-content {
+    margin-left: 0; /* sidebar becomes horizontal or collapses */
+    padding: 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <h2 class="logo">AwareU</h2>
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="modules.html" class="active">Learning Modules</a>
+    <a href="resources.html">Resources</a>
+    <a href="quizzes.html">Quizzes</a>
+    <a href="chat.html">Chat</a>
+    <a href="events.html">Events</a>
+    <a href="progress.html">My Progress</a>
+    <a href="profile.html">Profile</a>
+  </nav>
+  <button class="logout">Logout</button>
+</aside>
+
+<!-- Main Content -->
+<main class="main-content">
+
+  <div class="page-header">
+    <h1>My Progress</h1>
+    <p>Track your learning journey and achievements</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="card">
+      <div class="card-title">Overall Progress</div>
+      <div class="card-value" id="progressPercent">0%</div>
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+      <p class="quiz-meta" id="moduleText"></p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Quizzes Taken</div>
+      <div class="card-value" id="quizCount">0</div>
+      <p class="quiz-meta">Keep testing your knowledge</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Average Score</div>
+      <div class="card-value" id="avgScore">0%</div>
+      <p class="quiz-meta">Across all attempts</p>
+    </div>
+  </div>
+
+  <!-- Achievements -->
+  <div class="card" style="margin-top:30px;">
+    <h3>Achievements</h3>
+    <div class="achievements-grid">
+      <div class="achievement unlocked">
+        <div class="achievement-icon">✓</div>
+        <div>
+          <h4>First Steps</h4>
+          <p>Completed your first module</p>
+        </div>
+      </div>
+
+      <div class="achievement unlocked">
+        <div class="achievement-icon">✓</div>
+        <div>
+          <h4>Knowledge Seeker</h4>
+          <p>Completed 3 modules</p>
+        </div>
+      </div>
+
+      <div class="achievement locked">
+        <div class="achievement-icon">★</div>
+        <div>
+          <h4>Quiz Master</h4>
+          <p>Took 5 quizzes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Quizzes -->
+  <div class="card" style="margin-top:30px;">
+    <h3>Recent Quiz Attempts</h3>
+    <div class="quiz-list">
+      <div class="quiz-item">
+        <div>
+          <strong>Alcohol Awareness Quiz</strong>
+          <div class="quiz-meta">12 Jan 2026</div>
+        </div>
+        <div>
+          <div class="quiz-score">82%</div>
+          <div class="quiz-meta">9 / 11 correct</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- JavaScript -->
+<script>
+const data = {
+  completedModules: 13,
+  totalModules: 20,
+  quizzesTaken: 7,
+  averageScore: 78
+};
+
+const percent = Math.round((data.completedModules / data.totalModules) * 100);
+
+document.getElementById("progressFill")
+  .style.setProperty("--progress", percent + "%");
+
+document.getElementById("progressPercent").textContent = percent + "%";
+document.getElementById("quizCount").textContent = data.quizzesTaken;
+document.getElementById("avgScore").textContent = data.averageScore + "%";
+document.getElementById("moduleText").textContent =
+  `${data.completedModules} of ${data.totalModules} modules completed`;
+</script>
+
+</body>
+</html>
