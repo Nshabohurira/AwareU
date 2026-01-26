@@ -10,9 +10,10 @@
   --primary:#1AA6A6;
   --muted:#6B7280;
   --bg:#f9fafb;
+  --border:#e5e7eb;
 }
 
-/* Base */
+/* ===== Reset ===== */
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -26,16 +27,15 @@ a { text-decoration: none; color: inherit; }
 .mobile-header {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   width: 100%;
   height: 56px;
   background: #fff;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border);
   padding: 0 16px;
   align-items: center;
   gap: 12px;
-  z-index: 1200;
+  z-index: 1400;
 }
 .mobile-header button {
   font-size: 22px;
@@ -48,7 +48,7 @@ a { text-decoration: none; color: inherit; }
   color: var(--primary);
 }
 
-/* Overlay */
+/* ===== Overlay ===== */
 .overlay {
   position: fixed;
   inset: 0;
@@ -56,7 +56,7 @@ a { text-decoration: none; color: inherit; }
   opacity: 0;
   pointer-events: none;
   transition: 0.3s;
-  z-index: 1100;
+  z-index: 1200;
 }
 .overlay.show {
   opacity: 1;
@@ -68,14 +68,13 @@ a { text-decoration: none; color: inherit; }
   width: 230px;
   background: #fff;
   padding: 20px;
-  border-right: 1px solid #eee;
+  border-right: 1px solid var(--border);
   position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
+  top: 0; bottom: 0; left: 0;
   display: flex;
   flex-direction: column;
   z-index: 1300;
+  transition: transform 0.3s ease;
 }
 
 .logo {
@@ -92,7 +91,6 @@ a { text-decoration: none; color: inherit; }
   color: #555;
   border-radius: 6px;
   margin-bottom: 6px;
-  transition: 0.2s;
 }
 .sidebar nav a.active,
 .sidebar nav a:hover {
@@ -110,101 +108,34 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* ===== Main Content ===== */
-/* .main-content {
+.main-content {
   margin-left: 230px;
   padding: 30px;
   min-height: 100vh;
-} */
+}
 
 /* ===== Cards ===== */
-/* .card {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-} */
-
-/* Stats */
-/* .stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  margin-bottom: 30px;
-} */
-
-/* Buttons */
-/* button {
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-}
-button.primary {
-  background: var(--primary);
-  color: #fff;
-}
-button.outline {
-  background: #fff;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-} */
-
-/* Badges */
-/* .badge {
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-.badge.awareness { background:#DBEAFE; color:#1D4ED8; }
-.badge.self { background:#EDE9FE; color:#7C3AED; } */
-
-.main-content {
-  margin-left: 260px;
-  padding: 30px;
-}
-
-@media (max-width: 900px) {
-  .sidebar { position: relative; width: 100%; flex-direction: row; padding: 10px; border-right: none; }
-  .main-content { margin-left: 0; padding: 20px; }
-}
-
-/* ---------- Cards ---------- */
-/* ---------- Cards (Refined) ---------- */
 .card {
   background: linear-gradient(180deg, #ffffff, #fafafa);
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 22px;
   margin-bottom: 22px;
-  box-shadow:
-    0 4px 10px rgba(0,0,0,0.04),
-    0 12px 30px rgba(0,0,0,0.06);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  transition: transform 0.25s ease;
   position: relative;
-  overflow: hidden;
 }
+.card:hover { transform: translateY(-6px); }
 
 .card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-left: 5px solid var(--primary);
-  opacity: 0.15;
+  content:"";
+  position:absolute;
+  inset:0;
+  border-left:5px solid var(--primary);
+  opacity:0.15;
 }
 
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow:
-    0 8px 18px rgba(0,0,0,0.08),
-    0 20px 40px rgba(0,0,0,0.1);
-}
-
-
-/* ---------- Stats ---------- */
+/* ===== Stats ===== */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -217,43 +148,31 @@ button.outline {
   flex-direction: column;
   gap: 10px;
 }
-
 .stats-card .icon {
   font-size: 2rem;
   color: var(--primary);
 }
-
 .stats-card span {
   font-size: 2rem;
   font-weight: bold;
 }
-
 .stats-card p { color: var(--muted); }
 
-/* ---------- Quiz Cards ---------- */
+/* ===== Quiz Cards ===== */
 .quiz-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 12px;
-}
-
-.quiz-header h3 {
-  margin: 0;
-  font-size: 1.15rem;
+  align-items: center;
 }
 
 .badge {
-  display: inline-block;
   padding: 3px 10px;
   border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 600;
-  text-transform: uppercase;
 }
-
-.badge.awareness { background: #DBEAFE; color: #1D4ED8; }
-.badge.self { background: #EDE9FE; color: #7C3AED; }
+.badge.awareness { background:#DBEAFE; color:#1D4ED8; }
+.badge.self { background:#EDE9FE; color:#7C3AED; }
 
 .quiz-meta {
   margin-top: 12px;
@@ -263,7 +182,6 @@ button.outline {
   color: var(--muted);
 }
 
-
 .quiz-buttons {
   margin-top: 15px;
   display: flex;
@@ -271,69 +189,24 @@ button.outline {
   flex-wrap: wrap;
 }
 
-/* button {
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s ease;
-}
-
-button.outline {
-  background: #fff;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-}
-
-button.outline:hover { background: var(--primary); color: #fff; }
-
-button.primary {
-  background: var(--primary);
-  color: #fff;
-}
-
-button.primary:hover { opacity: 0.9; }
-
-.text-muted { color: var(--muted); font-size: 0.95rem; } */
-
+/* ===== Buttons ===== */
 button {
   padding: 10px 18px;
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
   border: none;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 button.primary {
   background: var(--primary);
   color: #fff;
-  box-shadow: 0 6px 16px rgba(26,166,166,0.3);
 }
-
-button.primary:hover {
-  transform: translateY(-2px);
-}
-
 button.outline {
   background: #fff;
   border: 1px solid var(--primary);
   color: var(--primary);
 }
-
-button.outline:hover {
-  background: var(--primary);
-  color: #fff;
-}
-.stats-card .icon {
-  transition: transform 0.2s ease;
-}
-
-.stats-card:hover .icon {
-  transform: scale(1.1);
-}
-
 
 /* ===== Mobile ===== */
 @media (max-width: 900px) {
@@ -341,7 +214,6 @@ button.outline:hover {
 
   .sidebar {
     transform: translateX(-100%);
-    transition: 0.3s;
   }
   .sidebar.open {
     transform: translateX(0);
@@ -359,7 +231,7 @@ button.outline:hover {
 
 <!-- Mobile Header -->
 <div class="mobile-header">
-  <button id="sidebarToggle">☰</button>
+  <button id="menuBtn">☰</button>
   <span>AwareU</span>
 </div>
 
@@ -381,12 +253,11 @@ button.outline:hover {
   <button class="logout">Logout</button>
 </aside>
 
-<!-- Main Content -->
+<!-- Main -->
 <div class="main-content">
   <h1>Quizzes & Assessments</h1>
   <p class="text-muted">Test your knowledge and track your understanding</p>
 
-  <!-- Stats -->
   <div class="stats-grid">
     <div class="card stats-card">
       <div class="icon">🎯</div>
@@ -405,51 +276,54 @@ button.outline:hover {
     </div>
   </div>
 
-  <!-- Quizzes List -->
-  <div id="quizList">
-    <!-- Quiz cards will be injected here via JS -->
-  </div>
+  <div id="quizList"></div>
 </div>
 
 <script>
-// Dummy data for demonstration
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+
+menuBtn.onclick = () => {
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
+};
+overlay.onclick = () => {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+};
+
+// Quiz data (unchanged)
 const quizzes = [
-  { id: 1, title: "Alcohol Awareness", description: "Understand alcohol effects and safe consumption.", quiz_type: "awareness", questions: [1,2,3], last_score: 8, total_questions: 10 },
-  { id: 2, title: "Stress Assessment", description: "Assess your stress levels and learn coping strategies.", quiz_type: "self", questions: [1,2,3,4], last_score: 3, total_questions: 5 },
-  { id: 3, title: "Drug Knowledge Quiz", description: "Test your knowledge on different types of drugs and their effects.", quiz_type: "awareness", questions: [1,2], last_score: null, total_questions: 2 },
+  { id:1, title:"Alcohol Awareness", description:"Understand alcohol effects and safe consumption.", quiz_type:"awareness", questions:[1,2,3], last_score:8, total_questions:10 },
+  { id:2, title:"Stress Assessment", description:"Assess your stress levels and learn coping strategies.", quiz_type:"self", questions:[1,2,3,4], last_score:3, total_questions:5 },
+  { id:3, title:"Drug Knowledge Quiz", description:"Test your knowledge on different types of drugs and their effects.", quiz_type:"awareness", questions:[1,2], last_score:null, total_questions:2 }
 ];
 
-// Stats
-document.getElementById('quizzesTaken').innerText = quizzes.filter(q => q.last_score !== null).length;
-document.getElementById('totalPoints').innerText = quizzes.reduce((acc,q)=> acc + (q.last_score||0),0);
+document.getElementById('quizzesTaken').innerText = quizzes.filter(q=>q.last_score!==null).length;
+document.getElementById('totalPoints').innerText = quizzes.reduce((a,q)=>a+(q.last_score||0),0);
 document.getElementById('availableQuizzes').innerText = quizzes.length;
 
-// Render quizzes
 const quizList = document.getElementById('quizList');
-quizzes.forEach(q => {
-  const badgeClass = q.quiz_type === 'awareness' ? 'badge awareness' : 'badge self';
-  const lastScoreText = q.last_score !== null ? `Last score: ${q.last_score}/${q.total_questions}` : '';
-  const buttonText = q.last_score !== null ? 'Retake Quiz' : 'Start Quiz';
-
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.innerHTML = `
-    <div class="quiz-header">
-      <h3>${q.title}</h3>
-      <span class="${badgeClass}">${q.quiz_type === 'awareness' ? 'Knowledge Quiz' : 'Self-Assessment'}</span>
-    </div>
-    <p class="text-muted">${q.description}</p>
-    <div class="quiz-meta">
-      <span>${q.questions.length} questions</span>
-      <span class="text-primary">${lastScoreText}</span>
-    </div>
-    <div class="quiz-buttons">
-      ${q.last_score !== null ? '<button class="outline">View Results</button>' : ''}
-      <button class="primary">${buttonText}</button>
-    </div>
-  `;
-  quizList.appendChild(card);
+quizzes.forEach(q=>{
+  quizList.innerHTML += `
+    <div class="card">
+      <div class="quiz-header">
+        <h3>${q.title}</h3>
+        <span class="badge ${q.quiz_type}">${q.quiz_type === 'awareness' ? 'Knowledge Quiz' : 'Self-Assessment'}</span>
+      </div>
+      <p class="text-muted">${q.description}</p>
+      <div class="quiz-meta">
+        <span>${q.questions.length} questions</span>
+        <span>${q.last_score !== null ? `Last score: ${q.last_score}/${q.total_questions}` : ''}</span>
+      </div>
+      <div class="quiz-buttons">
+        ${q.last_score !== null ? '<button class="outline">View Results</button>' : ''}
+        <button class="primary">${q.last_score !== null ? 'Retake Quiz' : 'Start Quiz'}</button>
+      </div>
+    </div>`;
 });
 </script>
+
 </body>
 </html>

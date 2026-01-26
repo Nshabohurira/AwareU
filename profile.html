@@ -8,13 +8,13 @@
 <style>
 :root {
   --primary:#1AA6A6;
-  --secondary: #6c63ff;
-  --bg: #f9fafb;
-  --card: #ffffff;
-  --border: #e5e7eb;
-  --text: #111827;
-  --muted: #6b7280;
-  --danger: #dc2626;
+  --secondary:#6c63ff;
+  --bg:#f9fafb;
+  --card:#ffffff;
+  --border:#e5e7eb;
+  --text:#111827;
+  --muted:#6b7280;
+  --danger:#dc2626;
 }
 
 /* Reset */
@@ -26,28 +26,68 @@ body {
   color: var(--text);
 }
 
-/* Sidebar */
+/* ===== Mobile Header ===== */
+.mobile-header {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 56px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
+  align-items: center;
+  gap: 12px;
+  z-index: 1200;
+}
+.mobile-header button {
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.mobile-header span {
+  font-weight: bold;
+  color: var(--primary);
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 1100;
+}
+.overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ===== Sidebar ===== */
 .sidebar {
   position: fixed;
-  top: 0; left: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
   width: 230px;
   background: #fff;
   border-right: 1px solid var(--border);
   padding: 20px;
   display: flex;
   flex-direction: column;
-  transition: left 0.3s ease;
-}
-
-.sidebar.hidden {
-  left: -250px;
+  z-index: 1300;
+  transition: transform 0.3s ease;
 }
 
 .logo {
   font-size: 1.4rem;
   font-weight: bold;
   color: var(--primary);
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .sidebar nav a {
@@ -74,6 +114,7 @@ body {
   background: #f3f4f6;
 }
 
+/* ===== Main Content ===== */
 /* Main Content */
 .main-content {
   margin-left: 230px;
@@ -192,13 +233,24 @@ button {
   width: 100%;
 }
 
-/* Responsive */
+/* ===== Responsive ===== */
 @media (max-width: 900px) {
-  .profile-grid {
-    grid-template-columns: 1fr;
+  .mobile-header { display: flex; }
+
+  .sidebar {
+    transform: translateX(-100%);
   }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
   .main-content {
     margin-left: 0;
+    padding-top: 76px;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
@@ -206,15 +258,17 @@ button {
 
 <body>
 
+<!-- Mobile Header -->
+<div class="mobile-header">
+  <button id="sidebarToggle">☰</button>
+  <span>AwareU</span>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
 <!-- Sidebar -->
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
   <div class="logo">AwareU</div>
-
-  <!-- Toggle Button (added only for sliding) -->
-  <button id="toggleSidebar" class="btn-outline" style="margin-bottom:15px;">
-    ☰
-  </button>
-
   <nav>
     <a href="dashboard.html">Dashboard</a>
     <a href="resources.html">Resources</a>
@@ -299,6 +353,21 @@ button {
 </main>
 
 <script>
+
+const sidebar = document.getElementById("sidebar");
+const toggle = document.getElementById("sidebarToggle");
+const overlay = document.getElementById("overlay");
+
+toggle.onclick = () => {
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("show");
+};
+
+overlay.onclick = () => {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+};
+
 /* Mock profile data */
 const profile = {
   full_name: "John Doe",
@@ -329,15 +398,6 @@ function saveProfile() {
   alert("Profile updated successfully");
 }
 
-/* Sidebar toggle */
-const toggleBtn = document.getElementById("toggleSidebar");
-const sidebar = document.querySelector(".sidebar");
-const mainContent = document.querySelector(".main-content");
-
-toggleBtn.addEventListener("click", () => {
-  sidebar.classList.toggle("hidden");
-  mainContent.classList.toggle("expanded");
-});
 </script>
 
 </body>
