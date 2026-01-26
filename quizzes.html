@@ -173,20 +173,36 @@ button.outline {
 }
 
 /* ---------- Cards ---------- */
+/* ---------- Cards (Refined) ---------- */
 .card {
-  background: var(--card-bg);
-  border: 15px solid var(--card-border);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  padding: 20px;
-  margin-bottom: 20px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: linear-gradient(180deg, #ffffff, #fafafa);
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 22px;
+  box-shadow:
+    0 4px 10px rgba(0,0,0,0.04),
+    0 12px 30px rgba(0,0,0,0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-left: 5px solid var(--primary);
+  opacity: 0.15;
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transform: translateY(-6px);
+  box-shadow:
+    0 8px 18px rgba(0,0,0,0.08),
+    0 20px 40px rgba(0,0,0,0.1);
 }
+
 
 /* ---------- Stats ---------- */
 .stats-grid {
@@ -218,7 +234,13 @@ button.outline {
 .quiz-header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.quiz-header h3 {
+  margin: 0;
+  font-size: 1.15rem;
 }
 
 .badge {
@@ -234,10 +256,13 @@ button.outline {
 .badge.self { background: #EDE9FE; color: #7C3AED; }
 
 .quiz-meta {
-  margin-top: 10px;
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
   color: var(--muted);
-  font-size: 0.9rem;
 }
+
 
 .quiz-buttons {
   margin-top: 15px;
@@ -246,7 +271,7 @@ button.outline {
   flex-wrap: wrap;
 }
 
-button {
+/* button {
   padding: 10px 16px;
   border-radius: 8px;
   font-weight: 600;
@@ -270,7 +295,45 @@ button.primary {
 
 button.primary:hover { opacity: 0.9; }
 
-.text-muted { color: var(--muted); font-size: 0.95rem; }
+.text-muted { color: var(--muted); font-size: 0.95rem; } */
+
+button {
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button.primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(26,166,166,0.3);
+}
+
+button.primary:hover {
+  transform: translateY(-2px);
+}
+
+button.outline {
+  background: #fff;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+button.outline:hover {
+  background: var(--primary);
+  color: #fff;
+}
+.stats-card .icon {
+  transition: transform 0.2s ease;
+}
+
+.stats-card:hover .icon {
+  transform: scale(1.1);
+}
+
 
 /* ===== Mobile ===== */
 @media (max-width: 900px) {

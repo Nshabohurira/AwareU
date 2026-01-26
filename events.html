@@ -6,16 +6,16 @@
 <title>Events & Campaigns – AwareU</title>
 
 <style>
+/* ================= VARIABLES ================= */
 :root {
-  --primary:#6C63FF;
-  --accent:#1AA6A6;
+  --primary:#1aa6a6;
   --bg:#f9fafb;
   --card:#ffffff;
   --border:#e5e7eb;
   --muted:#6b7280;
 }
 
-/* RESET */
+/* ================= RESET ================= */
 * { box-sizing: border-box; }
 body {
   margin:0;
@@ -24,281 +24,295 @@ body {
   color:#111827;
 }
 
-/* APP LAYOUT */
-.app-layout {
-  display: flex;
-  min-height: 100vh;
-}
-
-/* SIDEBAR */
+/* ================= LAYOUT ================= */
 .sidebar {
-  width: 230px;
-  background: #ffffff;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid #eee;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 1300;
-  
+  width:230px;
+  background:#fff;
+  padding:20px;
+  position:fixed;
+  top:0; left:0; bottom:0;
+  border-right:1px solid var(--border);
 }
 
 .logo {
-  color: var(--primary);
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 30px;
-  text-align: center;
+  text-align:center;
+  font-size:24px;
+  font-weight:bold;
+  color:var(--primary);
+  margin-bottom:30px;
 }
 
 .sidebar nav a {
-  display: block;
-  padding: 10px;
-  color: #555;
-  border-radius: 6px;
-  margin-bottom: 6px;
-  transition: 0.3s;
+  display:block;
+  padding:10px;
+  margin-bottom:6px;
+  color:#555;
+  border-radius:6px;
+  text-decoration:none;
 }
 
 .sidebar nav a.active,
 .sidebar nav a:hover {
-  background: #e7f6f6;
-  color: var(--primary);
+  background:#e7f6f6;
+  color:var(--primary);
 }
 
 .logout {
-  margin-top: auto;
-  padding: 10px;
-  border: none;
-  background: #f2f2f2;
-  border-radius: 6px;
-  cursor: pointer;
+  margin-top:auto;
+  padding:10px;
+  border:none;
+  background:#f2f2f2;
+  border-radius:6px;
+  cursor:pointer;
 }
 
-
-/* MAIN */
 .main-content {
-  margin-left: 260px;
-  padding: 30px;
+  margin-left:260px;
+  padding:30px;
 }
 
-@media (max-width: 900px) {
-  .sidebar { position: relative; width: 100%; flex-direction: row; padding: 10px; border-right: none; }
-  .main-content { margin-left: 0; padding: 20px; }
+/* ================= EVENTS ================= */
+.event-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+  gap:20px;
+  margin-top:20px;
 }
 
-/* ---------- Cards ---------- */
-.card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  padding: 20px;
-  margin-bottom: 20px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  display: flex;
-  flex-direction: column;
+.event-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+  transition:0.2s;
 }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+.event-card:hover {
+  transform:translateY(-4px);
 }
 
-.card img {
-  border-radius: 12px 12px 0 0;
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
+.event-card img {
+  width:100%;
+  height:180px;
+  object-fit:cover;
 }
 
-/* ---------- Badges ---------- */
+.event-body {
+  padding:16px;
+}
+
+.event-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.event-header h3 {
+  margin:0;
+  font-size:18px;
+}
+
 .badge {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
+  font-size:12px;
+  padding:4px 10px;
+  border-radius:12px;
+  font-weight:600;
 }
 
-.badge.registered { background: #DCFCE7; color: #16A34A; }
-.badge.past { background: #E5E7EB; color: #6B7280; }
-.badge.full { background: #FEE2E2; color: #B91C1C; }
+.badge.registered { background:#DCFCE7; color:#16A34A; }
+.badge.full { background:#FEE2E2; color:#B91C1C; }
+.badge.past { background:#E5E7EB; color:#6B7280; }
 
-/* ---------- Event Info ---------- */
-.event-info {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 0.95rem;
-  color: var(--muted);
+.event-desc {
+  margin:10px 0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.4;
 }
 
-.event-info span { display: flex; align-items: center; gap: 5px; }
+.event-info span {
+  display:block;
+  font-size:14px;
+  color:var(--muted);
+  margin-bottom:4px;
+}
 
-/* ---------- Buttons ---------- */
+.event-actions {
+  margin-top:12px;
+}
+
 button {
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s ease;
+  padding:10px 14px;
+  border-radius:8px;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
+}
+
+button.primary {
+  background:var(--primary);
+  color:#fff;
 }
 
 button.outline {
-  background: #fff;
-  border: 1px solid var(--secondary);
-  color: var(--secondary);
+  background:#fff;
+  border:1px solid var(--primary);
+  color:var(--primary);
 }
-
-button.outline:hover { background: var(--secondary); color: #fff; }
-
-button.primary {
-  background: var(--secondary);
-  color: #fff;
-}
-
-button.primary:hover { opacity: 0.9; }
 
 button:disabled {
-  background: #ccc;
-  color: #666;
-  cursor: not-allowed;
+  background:#ccc;
+  cursor:not-allowed;
 }
 
-/* ---------- Grid ---------- */
-.event-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-/* ---------- Icons ---------- */
-.icon { font-size: 1rem; color: var(--muted); }
-/* MOBILE */
-@media (max-width: 768px) {
-  .sidebar {
-    position:fixed;
-    z-index:100;
-    height:100%;
-    transform:translateX(-100%);
-  }
-  .sidebar.show {
-    transform:translateX(0);
-  }
+/* ================= MOBILE ================= */
+@media (max-width:900px) {
+  .sidebar { display:none; }
+  .main-content { margin-left:0; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="app-layout">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
+<!-- SIDEBAR -->
+<aside class="sidebar">
   <h2 class="logo">AwareU</h2>
   <nav>
     <a href="dashboard.html">Dashboard</a>
-    <a href="modules.html" class="active">Learning Modules</a>
+    <a href="modules.html">Learning Modules</a>
     <a href="resources.html">Resources</a>
     <a href="quizzes.html">Quizzes</a>
     <a href="chat.html">Chat</a>
-    <a href="events.html">Events</a>
+    <a href="events.html" class="active">Events</a>
     <a href="progress.html">My Progress</a>
     <a href="profile.html">Profile</a>
   </nav>
   <button class="logout">Logout</button>
 </aside>
-  <!-- MAIN -->
-  <!-- Main Content -->
-<div class="main-content">
+
+<!-- MAIN -->
+<main class="main-content">
   <h1>Events & Campaigns</h1>
-  <p class="text-muted">Join awareness events and workshops on campus</p>
+  <p style="color:var(--muted)">Join awareness events and workshops on campus</p>
 
-  <div class="event-grid" id="eventGrid">
-    <!-- Event cards injected via JS -->
-  </div>
-
-</div>
+  <div class="event-grid" id="eventGrid"></div>
+</main>
 
 <script>
-// Dummy data
+/* ================= EVENT DATA ================= */
 const events = [
   {
-    id: 1,
-    title: "Alcohol Awareness Workshop",
-    description: "Learn about alcohol safety, responsible consumption, and its effects on health. Open to all students interested in increasing their knowledge.",
-    event_date: "2026-02-15T14:00:00",
-    location: "Auditorium A",
-    capacity: 50,
-    registered_count: 25,
-    image_url: "https://images.unsplash.com/photo-1573164574572-cb89e39749c6",
-    registered: true
+    title:"Alcohol Awareness Workshop",
+    description:"Learn about alcohol safety and responsible consumption.",
+    date:"2026-02-15T14:00",
+    location:"Auditorium A",
+    capacity:50,
+    registered:25,
+    image:"images/workshop pic.avif",
+    userRegistered:true
   },
   {
-    id: 2,
-    title: "Stress Management Seminar",
-    description: "Assess your stress levels and learn practical strategies to manage stress effectively. Includes interactive activities and relaxation techniques.",
-    event_date: "2026-03-05T10:00:00",
-    location: "Room 101",
-    capacity: 30,
-    registered_count: 30,
-    image_url: "https://images.unsplash.com/photo-1554774853-bbc3b8d2795c",
-    registered: false
+    title:"Stress Management Seminar",
+    description:"Practical strategies for managing stress effectively.",
+    date:"2026-03-05T10:00",
+    location:"Room 101",
+    capacity:30,
+    registered:30,
+    image:"images/drugs.avif",
+    userRegistered:true
   },
   {
-    id: 3,
-    title: "Drug Awareness Campaign",
-    description: "Discover important information about drugs, their effects, prevention strategies, and campus resources to stay safe.",
-    event_date: "2026-01-20T09:00:00",
-    location: "Main Hall",
-    capacity: null,
-    registered_count: 0,
-    image_url: "https://images.unsplash.com/photo-1588776814546-2c60fbc4a30b",
-    registered: false
+    title:"Drug Awareness Campaign",
+    description:"Learn about drug effects, prevention and campus support.",
+    date:"2026-01-20T09:00",
+    location:"Main Hall",
+    capacity:20,
+    registered:0,
+    image:"images/campain.jpg",
+    userRegistered:true
+  },
+
+  {
+    title:"Drug Awareness Campaign",
+    description:"Learn about drug effects, prevention and campus support.",
+    date:"2026-01-20T09:00",
+    location:"Main Hall",
+    capacity:20,
+    registered:0,
+    image:"images/campain.jpg",
+    userRegistered:true
+  },
+  {
+    title:"The need for community",
+    description:"Learn about campus support available for those struggling with drugs.",
+    date:"2026-01-20T09:00",
+    location:"Auditorium",
+    capacity:20,
+    registered:0,
+    image:"images/african students.jpeg",
+    userRegistered:true
+  },
+  {
+    title:"Coping mechanisms",
+    description:"Learn about how to cope with drug abuse side effects.",
+    date:"2026-01-20T09:00",
+    location:"Main Hall",
+    capacity:null,
+    registered:0,
+    image:"images/workshop2.jpg",
+    userRegistered:false
   }
+  
+  
+  
 ];
 
-// Render events
-const eventGrid = document.getElementById('eventGrid');
+/* ================= RENDER ================= */
+const grid = document.getElementById("eventGrid");
 
 events.forEach(e => {
-  const eventDate = new Date(e.event_date);
-  const isPast = eventDate < new Date();
-  const isFull = e.capacity && e.registered_count >= e.capacity;
+  const date = new Date(e.date);
+  const isPast = date < new Date();
+  const isFull = e.capacity && e.registered >= e.capacity;
 
-  const card = document.createElement('div');
-  card.className = 'card';
+  const badge = e.userRegistered
+    ? '<span class="badge registered">Registered</span>'
+    : isPast
+    ? '<span class="badge past">Past</span>'
+    : isFull
+    ? '<span class="badge full">Full</span>'
+    : '';
 
-  card.innerHTML = `
-    ${e.image_url ? `<img src="${e.image_url}" alt="${e.title}">` : ''}
-    <div class="card-header" style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
-      <h3>${e.title}</h3>
-      ${e.registered ? '<span class="badge registered">Registered</span>' : isPast ? '<span class="badge past">Past</span>' : isFull ? '<span class="badge full">Full</span>' : ''}
-    </div>
-    <p class="text-muted" style="margin-top:8px; line-height:1.4;">${e.description}</p>
-    <div class="event-info">
-      <span class="icon">📅 ${eventDate.toLocaleDateString()}</span>
-      <span class="icon">⏰ ${eventDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-      <span class="icon">📍 ${e.location}</span>
-      ${e.capacity ? `<span class="icon">👥 ${e.registered_count} / ${e.capacity} registered</span>` : ''}
-    </div>
-    <div class="quiz-buttons" style="margin-top:12px;">
-      <button class="${e.registered ? 'outline' : 'primary'}" ${isPast || isFull ? 'disabled' : ''}>
-        ${e.registered ? 'Cancel Registration' : isPast ? 'Event Ended' : isFull ? 'Event Full' : 'Register'}
-      </button>
+  grid.innerHTML += `
+    <div class="event-card">
+      <img src="${e.image}" alt="${e.title}">
+      <div class="event-body">
+        <div class="event-header">
+          <h3>${e.title}</h3>
+          ${badge}
+        </div>
+        <p class="event-desc">${e.description}</p>
+        <div class="event-info">
+          <span>📅 ${date.toLocaleDateString()}</span>
+          <span>⏰ ${date.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+          <span>📍 ${e.location}</span>
+          ${e.capacity ? `<span>👥 ${e.registered}/${e.capacity}</span>` : ''}
+        </div>
+        <div class="event-actions">
+          <button class="${e.userRegistered ? 'outline' : 'primary'}"
+            ${isPast || isFull ? 'disabled' : ''}>
+            ${e.userRegistered ? 'Cancel Registration' :
+              isPast ? 'Event Ended' :
+              isFull ? 'Event Full' : 'Register'}
+          </button>
+        </div>
+      </div>
     </div>
   `;
-
-  eventGrid.appendChild(card);
 });
 </script>
+
 </body>
 </html>

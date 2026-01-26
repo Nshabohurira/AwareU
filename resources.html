@@ -247,7 +247,19 @@ button:hover { background:#4f46e5; color:white; border-color:#4f46e5; }
   <!-- Resource Cards -->
     <section class="resources">
       <div class="card">
-        <img src="images/drugtypes.jpg" alt="Alcohol Effects">
+        <img src="images/drugs.avif" alt="Alcohol Effects">
+        <div class="card-content">
+          <h3>📘The Science of Addiction</h3>
+          <p>Explore how addiction works in the brain and why recovery is always possible with the right</p>
+          <div class="meta">
+            <span class="tag alcohol">drugs</span>
+            <span class="time">⏱️ 8 min</span>
+          </div>
+          <button>Read More</button>
+        </div>
+      </div>
+      <div class="card">
+        <img src="images/addiction.avif" alt="Alcohol Effects">
         <div class="card-content">
           <h3>📘 Understanding Alcohol Effects</h3>
           <p>Learn about how alcohol affects your brain and body, and why moderation matters.</p>
@@ -259,37 +271,25 @@ button:hover { background:#4f46e5; color:white; border-color:#4f46e5; }
         </div>
       </div>
       <div class="card">
-        <img src="images/drugtypes.jpg" alt="Alcohol Effects">
+        <img src="images/stress mgt.avif" alt="Alcohol Effects">
         <div class="card-content">
-          <h3>📘 Understanding Alcohol Effects</h3>
-          <p>Learn about how alcohol affects your brain and body, and why moderation matters.</p>
+          <h3>📘 Mindfulness for Anxiety</h3>
+          <p>Simple mindfulness exercises to reduce anxiety and improve focus during stressful periods.</p>
           <div class="meta">
-            <span class="tag alcohol">alcohol</span>
+            <span class="tag alcohol">stress</span>
             <span class="time">⏱️ 8 min</span>
           </div>
           <button>Read More</button>
         </div>
       </div>
       <div class="card">
-        <img src="images/drugtypes.jpg" alt="Alcohol Effects">
+        <img src="images/mental health.webp" alt="Alcohol Effects">
         <div class="card-content">
-          <h3>📘 Understanding Alcohol Effects</h3>
-          <p>Learn about how alcohol affects your brain and body, and why moderation matters.</p>
+          <h3>📘 Mental Health First Aid</h3>
+          <p>Learn to recognize signs of mental health struggles and how to support yourself and others.</p>
           <div class="meta">
-            <span class="tag alcohol">alcohol</span>
-            <span class="time">⏱️ 8 min</span>
-          </div>
-          <button>Read More</button>
-        </div>
-      </div>
-      <div class="card">
-        <img src="images/drugtypes.jpg" alt="Alcohol Effects">
-        <div class="card-content">
-          <h3>📘 Understanding Alcohol Effects</h3>
-          <p>Learn about how alcohol affects your brain and body, and why moderation matters.</p>
-          <div class="meta">
-            <span class="tag alcohol">alcohol</span>
-            <span class="time">⏱️ 8 min</span>
+            <span class="tag alcohol">mental health</span>
+            <span class="time">⏱️ 12 min</span>
           </div>
           <button>Read More</button>
         </div>
@@ -334,19 +334,51 @@ button:hover { background:#4f46e5; color:white; border-color:#4f46e5; }
 </div>
 
 <script>
+
 const sidebar = document.getElementById("sidebar");
 const toggleBtn = document.getElementById("sidebarToggle");
 const overlay = document.getElementById("overlay");
+const sidebarLinks = sidebar.querySelectorAll("a");
 
-toggleBtn.onclick = () => {
+function openSidebar() {
   sidebar.classList.add("open");
   overlay.classList.add("show");
-};
+}
 
-overlay.onclick = () => {
+function closeSidebar() {
   sidebar.classList.remove("open");
   overlay.classList.remove("show");
-};
+}
+
+// Toggle button
+toggleBtn.addEventListener("click", () => {
+  if (sidebar.classList.contains("open")) {
+    closeSidebar();
+  } else {
+    openSidebar();
+  }
+});
+
+// Overlay click
+overlay.addEventListener("click", closeSidebar);
+
+// Close sidebar when a link is clicked (mobile UX fix)
+sidebarLinks.forEach(link => {
+  link.addEventListener("click", () => {
+    if (window.innerWidth <= 900) {
+      closeSidebar();
+    }
+  });
+});
+
+// Safety: reset sidebar on resize
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 900) {
+    closeSidebar();
+  }
+});
+
+
 </script>
 
 </body>

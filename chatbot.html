@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drug Awareness Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 350px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: #4CAF50;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+
+    .chat-input button {
+      padding: 10px 15px;
+      border: none;
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      display: flex;
+    }
+
+    .message.user {
+      justify-content: flex-end;
+    }
+
+    .message.bot {
+      justify-content: flex-start;
+    }
+
+    .message p {
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 70%;
+    }
+
+    .message.user p {
+      background: #DCF8C6;
+    }
+
+    .message.bot p {
+      background: #eee;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="chat-header">Drug Awareness Bot</div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-input">
+    <input type="text" id="userInput" placeholder="Type your question...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+  const responses = {
+    "hello": "hello there, how are you.",
+    "i'm okay ": "Nice, Anything bothering you today",
+    
+    
+  };
+
+  function getBotResponse(message) {
+    message = message.toLowerCase();
+    return responses[message] || "I'm not sure about that. Please contact a counselor or type another question.";
+  }
+
+  function sendMessage() {
+    const input = document.getElementById("userInput");
+    const message = input.value.trim();
+    if (!message) return;
+
+    // Display user message
+    const chatMessages = document.getElementById("chatMessages");
+    const userMsg = document.createElement("div");
+    userMsg.className = "message user";
+    userMsg.innerHTML = `<p>${message}</p>`;
+    chatMessages.appendChild(userMsg);
+
+    // Get bot response
+    const botReply = getBotResponse(message);
+    const botMsg = document.createElement("div");
+    botMsg.className = "message bot";
+    botMsg.innerHTML = `<p>${botReply}</p>`;
+    chatMessages.appendChild(botMsg);
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    input.value = "";
+  }
+
+  // Optional: Send message on Enter key
+  document.getElementById("userInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") sendMessage();
+  });
+</script>
+
+</body>
+</html>
