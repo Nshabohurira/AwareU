@@ -217,8 +217,10 @@ a { text-decoration:none; color:inherit; }
     <a href="quizzes.html">Quizzes</a>
     <a href="chat.html">Chat</a>
     <a href="events.html">Events</a>
+    <a href="contact.html">Get Help</a>
     <a href="progress.html">My Progress</a>
     <a href="profile.html">Profile</a>
+    
   </nav>
   <button class="logout">Logout</button>
 </aside>
@@ -260,10 +262,32 @@ overlay.addEventListener("click", () => {
 });
 
 const modulesData = [
-    { id: '1', title: 'Understanding Alcohol Effects', description: 'Learn how alcohol affects your brain and body, why moderation matters, and its long-term impact on health. Includes real-life case studies and interactive examples.', estimated_minutes: 8, content:'In-depth content about alcohol and its effects on mental and physical health.' },
-    { id: '2', title: 'Drug Types and Risks', description: 'Comprehensive guide to different drug categories, their effects, risks, and legal considerations. Understand why some substances are more addictive and how to stay safe.', estimated_minutes: 12, content:'Detailed content about drug classifications, their effects, and health risks.' },
-    { id: '3', title: 'Managing Stress', description: 'Practical strategies to manage stress without substances. Learn breathing techniques, time management tips, and mindfulness practices for everyday life.', estimated_minutes: 15, content:'Content on mindfulness, stress relief exercises, and healthy coping mechanisms.' }
-  ];
+  { 
+    id: '1', 
+    title: 'Understanding Alcohol Effects', 
+    description: 'Learn how alcohol affects your brain and body, why moderation matters, and its long-term impact on health. Includes real-life case studies and interactive examples.', 
+    estimated_minutes: 8, 
+    content: 'In-depth content about alcohol and its effects on mental and physical health.', 
+    videoLink: 'https://www.youtube.com/watch?v=WwFPb-2T8N8'
+  },
+  { 
+    id: '2', 
+    title: 'Drug Types and Risks', 
+    description: 'Comprehensive guide to different drug categories, their effects, risks, and legal considerations. Understand why some substances are more addictive and how to stay safe.', 
+    estimated_minutes: 12, 
+    content: 'Detailed content about drug classifications, their effects, and health risks.', 
+    videoLink: 'https://www.youtube.com/watch?v=VIDEO_ID_2'
+  },
+  { 
+    id: '3', 
+    title: 'Managing Stress', 
+    description: 'Practical strategies to manage stress without substances. Learn breathing techniques, time management tips, and mindfulness practices for everyday life.', 
+    estimated_minutes: 15, 
+    content: 'Content on mindfulness, stress relief exercises, and healthy coping mechanisms.', 
+    videoLink: 'https://www.youtube.com/watch?v=VIDEO_ID_3'
+  }
+];
+
 
   let progress = {}; 
 
@@ -273,57 +297,65 @@ const modulesData = [
   const progressPercentEl = document.getElementById('progress-percent');
 
   function renderModules() {
-    modulesList.innerHTML = '';
-    modulesData.forEach((module, index) => {
-      const isCompleted = progress[module.id];
+  modulesList.innerHTML = '';
 
-      const card = document.createElement('div');
-      card.className = 'card';
+  modulesData.forEach((module, index) => {
+    const isCompleted = progress[module.id];
 
-      card.innerHTML = `
-        <div class="flex">
-          <div class="module-status ${isCompleted ? 'completed' : ''}">
-            ${isCompleted ? '✓' : index+1}
-          </div>
-          <div class="module-content" style="flex:1; margin-left: 12px;">
-            <h3>${module.title}</h3>
-            <p>${module.description}</p>
-            <div class="module-meta">
-              <span>⏱️ ${module.estimated_minutes} min</span>
-            </div>
-            <div class="flex" style="gap:8px;">
-              <button class="btn btn-outline" onclick="alert('Watching module ${module.title}')">Watch Video</button>
-              <button class="btn ${isCompleted ? 'btn-secondary' : 'btn-primary'}" onclick="toggleCompletion('${module.id}')">
-                ${isCompleted ? 'Mark as Incomplete' : 'Mark as Complete'}
-              </button>
-            </div>
-          </div>
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    card.innerHTML = `
+      <div class="flex">
+        <div class="module-status ${isCompleted ? 'completed' : ''}">
+          ${isCompleted ? '✓' : index + 1}
         </div>
-      `;
+        <div class="module-content" style="flex:1; margin-left: 12px;">
+          <h3>${module.title}</h3>
+          <p>${module.description}</p>
+          <div class="module-meta">
+            <span>⏱️ ${module.estimated_minutes} min</span>
+          </div>
+          <div class="flex" style="gap:8px;">
+            <button class="btn btn-outline" id="watch-${module.id}">Watch Video</button>
+            <button class="btn ${isCompleted ? 'btn-secondary' : 'btn-primary'}" onclick="toggleCompletion('${module.id}')">
+              ${isCompleted ? 'Mark as Incomplete' : 'Mark as Complete'}
+            </button>
+          </div>
+          <div id="video-container-${module.id}" style="margin-top:12px;"></div>
+        </div>
+      </div>
+    `;
 
-      modulesList.appendChild(card);
+    modulesList.appendChild(card);
+
+    // Add event listener for the watch video button
+    const watchBtn = document.getElementById(`watch-${module.id}`);
+    const videoContainer = document.getElementById(`video-container-${module.id}`);
+
+    watchBtn.addEventListener('click', () => {
+      // Toggle video display
+      if (videoContainer.innerHTML.trim() === '') {
+        // Extract video ID and embed
+        const videoId = module.videoLink.split('v=')[1];
+        videoContainer.innerHTML = `
+          <iframe width="100%" height="315" 
+                  src="https://www.youtube.com/embed/${videoId}" 
+                  title="${module.title}" 
+                  frameborder="0" allowfullscreen></iframe>
+        `;
+        watchBtn.textContent = 'Hide Video';
+      } else {
+        videoContainer.innerHTML = '';
+        watchBtn.textContent = 'Watch Video';
+      }
     });
+  });
 
-    updateProgress();
-  }
+  updateProgress();
+}
 
-  function toggleCompletion(moduleId) {
-    progress[moduleId] = !progress[moduleId];
-    renderModules();
-    alert(progress[moduleId] ? 'Module completed!' : 'Module marked as incomplete');
-  }
-
-  function updateProgress() {
-    const completedCount = Object.values(progress).filter(Boolean).length;
-    const total = modulesData.length;
-    const percent = total > 0 ? Math.round((completedCount / total) * 100) : 0;
-
-    progressCountEl.textContent = `${completedCount}/${total}`;
-    progressFillEl.style.width = percent + '%';
-    progressPercentEl.textContent = percent + '% Complete';
-  }
-
-  renderModules();
+  
 </script>
 
 </body>

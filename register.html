@@ -167,59 +167,104 @@
     </form>
 
     <div class="login-links">
-      Already have an account? <a href="#">Sign in</a>
+      Already have an account? <a href="login.html">Login</a>
     </div>
   </div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js"></script>
+<script>
+  const supabaseUrl = "https://vxssijrhqzbduajohivi.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ4c3NpanJocXpiZHVham9oaXZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NjIwMDUsImV4cCI6MjA4NTEzODAwNX0.O6LYJ1ZQo-P-Yqa2MBiOepTTNK1GULpD_HFEmB5iFvo";
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+</script>
+
 
   <script>
     const form = document.getElementById('registerForm');
 
-    const fname = document.getElementById('fname');
-    const lname = document.getElementById('lname');
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
+const fname = document.getElementById('fname');
+const lname = document.getElementById('lname');
+const email = document.getElementById('email');
+const password = document.getElementById('password');
 
-    const fnameError = document.getElementById('fnameError');
-    const lnameError = document.getElementById('lnameError');
-    const emailError = document.getElementById('emailError');
-    const passwordError = document.getElementById('passwordError');
+const fnameError = document.getElementById('fnameError');
+const lnameError = document.getElementById('lnameError');
+const emailError = document.getElementById('emailError');
+const passwordError = document.getElementById('passwordError');
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      let valid = true;
+form.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  let valid = true;
 
-      if (!fname.value.trim()) {
-        fnameError.style.display = 'block';
-        valid = false;
-      } else {
-        fnameError.style.display = 'none';
+  // --------- Validation ---------
+  if (!fname.value.trim()) {
+    fnameError.style.display = 'block';
+    valid = false;
+  } else {
+    fnameError.style.display = 'none';
+  }
+
+  if (!lname.value.trim()) {
+    lnameError.style.display = 'block';
+    valid = false;
+  } else {
+    lnameError.style.display = 'none';
+  }
+
+  if (!email.value || !email.value.includes('@')) {
+    emailError.style.display = 'block';
+    valid = false;
+  } else {
+    emailError.style.display = 'none';
+  }
+
+  if (!password.value || password.value.length < 6) {
+    passwordError.style.display = 'block';
+    valid = false;
+  } else {
+    passwordError.style.display = 'none';
+  }
+
+  // --------- If valid, create Supabase account ---------
+  if (valid) {
+    try {
+      // 1. Create account in Supabase Auth
+      const { data, error } = await supabase.auth.signUp({
+        email: email.value,
+        password: password.value
+      });
+
+      if (error) {
+        alert("Error creating account: " + error.message);
+        return;
       }
 
-      if (!lname.value.trim()) {
-        lnameError.style.display = 'block';
-        valid = false;
-      } else {
-        lnameError.style.display = 'none';
+      // 2. Insert first and last name in profiles table
+      const { error: profileError } = await supabase.from("profiles").insert([
+        {
+          id: data.user.id,
+          first_name: fname.value.trim(),
+          last_name: lname.value.trim()
+        }
+      ]);
+
+      if (profileError) {
+        alert("Error saving profile: " + profileError.message);
+        return;
       }
 
-      if (!email.value || !email.value.includes('@')) {
-        emailError.style.display = 'block';
-        valid = false;
-      } else {
-        emailError.style.display = 'none';
-      }
+      // 3. Success message
+      alert(`Account created successfully!\nWelcome to Safespace Hub, ${fname.value.trim()}!`);
+      form.reset(); // clear form
 
-      if (!password.value || password.value.length < 6) {
-        passwordError.style.display = 'block';
-        valid = false;
-      } else {
-        passwordError.style.display = 'none';
-      }
+    } catch (err) {
+  console.error(err); // this prints details to browser console
+  alert("Unexpected error: " + err.message);
+}
 
-      if (valid) {
-        alert(`Account created successfully!\nWelcome to Safespace Hub, ${fname.value.trim()}!`);
-      }
-    });
+  }
+});
+
   </script>
 </body>
 </html>
