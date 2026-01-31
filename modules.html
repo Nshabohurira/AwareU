@@ -125,6 +125,18 @@ a { text-decoration:none; color:inherit; }
   }
 }
 
+.module.locked {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.module.current {
+  border: 2px solid var(--primary);
+  background: #f0fdfd;
+}
+.module {
+  transition: opacity 0.3s ease;
+}
 
   /* Card Styling */
   .card {
@@ -240,6 +252,11 @@ a { text-decoration:none; color:inherit; }
       <div class="progress-fill" id="progress-fill"></div>
     </div>
     <p id="progress-percent">0% Complete</p>
+
+    <button class="btn btn-outline" id="resetModulesBtn" style="margin-top:12px;">
+  Restart Modules
+    </button>
+
   </div>
 
   <!-- Modules List -->
@@ -247,115 +264,165 @@ a { text-decoration:none; color:inherit; }
 </div>
 
 <script>
-const sidebar = document.querySelector(".sidebar");
-const toggleBtn = document.getElementById("sidebarToggle");
-const overlay = document.getElementById("overlay");
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("resetModulesBtn").addEventListener("click", () => {
+  const confirmReset = confirm(
+    "This will reset all module progress. Are you sure?"
+  );
 
-toggleBtn.addEventListener("click", () => {
-  sidebar.classList.add("open");
-  overlay.classList.add("show");
+  if (!confirmReset) return;
+
+  localStorage.removeItem("moduleProgress");
+  progress = {};
+  renderModules();
 });
 
-overlay.addEventListener("click", () => {
-  sidebar.classList.remove("open");
-  overlay.classList.remove("show");
-});
 
 const modulesData = [
-  { 
-    id: '1', 
-    title: 'Understanding Alcohol Effects', 
-    description: 'Learn how alcohol affects your brain and body, why moderation matters, and its long-term impact on health. Includes real-life case studies and interactive examples.', 
-    estimated_minutes: 8, 
-    content: 'In-depth content about alcohol and its effects on mental and physical health.', 
-    videoLink: 'https://www.youtube.com/watch?v=WwFPb-2T8N8'
+  {
+    id: "mod1",
+    title: "Introduction to Drug Awareness",
+    description: `Understanding the basics of substance abuse and its impact on university students.
+
+This module covers the fundamental concepts of drug awareness, including why it matters for students, common misconceptions, and the real statistics behind substance use on campus. You will...`,
+    estimated_minutes: 10,
+    videoLink: "https://www.youtube.com/watch?v=lWItmmunbvQ"
   },
-  { 
-    id: '2', 
-    title: 'Drug Types and Risks', 
-    description: 'Comprehensive guide to different drug categories, their effects, risks, and legal considerations. Understand why some substances are more addictive and how to stay safe.', 
-    estimated_minutes: 12, 
-    content: 'Detailed content about drug classifications, their effects, and health risks.', 
-    videoLink: 'https://www.youtube.com/watch?v=VIDEO_ID_2'
+  // next modules...
+
+  {
+    id: "mod2",
+    title: "The Science Behind Addiction",
+    description: `Learn how substances affect your brain chemistry and why addiction develops.
+
+Dive deep into the neuroscience of addiction. This module explains how drugs hijack the brain's reward system, the role of dopamine, and why some people are more vulnerable to addiction`,
+    estimated_minutes: 10,
+    videoLink: "https://www.youtube.com/watch?v=i4gvIeA3RcI"
   },
-  { 
-    id: '3', 
-    title: 'Managing Stress', 
-    description: 'Practical strategies to manage stress without substances. Learn breathing techniques, time management tips, and mindfulness practices for everyday life.', 
-    estimated_minutes: 15, 
-    content: 'Content on mindfulness, stress relief exercises, and healthy coping mechanisms.', 
-    videoLink: 'https://www.youtube.com/watch?v=VIDEO_ID_3'
+  {
+    id: "mod3",
+    title: "Healthy Coping Strategies",
+    description: `Discover effective alternatives to substance use for managing stress and emotions.
+
+Explore evidence-based techniques for managing university stress, anxiety, and social pressures without turning to substances. Topics include mindfulness, exercise, social support, time management,`,
+    estimated_minutes: 10,
+    videoLink: "https://www.youtube.com/watch?v=xG0B7uOEPB4"
   }
 ];
 
 
-  let progress = {}; 
+  const modulesList = document.getElementById("modules-list");
+  const progressCountEl = document.getElementById("progress-count");
+  const progressFillEl = document.getElementById("progress-fill");
+  const progressPercentEl = document.getElementById("progress-percent");
 
-  const modulesList = document.getElementById('modules-list');
-  const progressCountEl = document.getElementById('progress-count');
-  const progressFillEl = document.getElementById('progress-fill');
-  const progressPercentEl = document.getElementById('progress-percent');
+  let progress = JSON.parse(localStorage.getItem("moduleProgress")) || {};
+
+  function getYouTubeID(url) {
+    const match = url.match(/(?:v=|youtu\.be\/)([\w-]+)/);
+    return match ? match[1] : null;
+  }
 
   function renderModules() {
-  modulesList.innerHTML = '';
+    modulesList.innerHTML = "";
+    let firstIncompleteFound = false;
 
-  modulesData.forEach((module, index) => {
-    const isCompleted = progress[module.id];
+    modulesData.forEach((module, index) => {
+      const isCompleted = progress[module.id];
+      let state = "locked";
 
-    const card = document.createElement('div');
-    card.className = 'card';
-
-    card.innerHTML = `
-      <div class="flex">
-        <div class="module-status ${isCompleted ? 'completed' : ''}">
-          ${isCompleted ? '✓' : index + 1}
-        </div>
-        <div class="module-content" style="flex:1; margin-left: 12px;">
-          <h3>${module.title}</h3>
-          <p>${module.description}</p>
-          <div class="module-meta">
-            <span>⏱️ ${module.estimated_minutes} min</span>
-          </div>
-          <div class="flex" style="gap:8px;">
-            <button class="btn btn-outline" id="watch-${module.id}">Watch Video</button>
-            <button class="btn ${isCompleted ? 'btn-secondary' : 'btn-primary'}" onclick="toggleCompletion('${module.id}')">
-              ${isCompleted ? 'Mark as Incomplete' : 'Mark as Complete'}
-            </button>
-          </div>
-          <div id="video-container-${module.id}" style="margin-top:12px;"></div>
-        </div>
-      </div>
-    `;
-
-    modulesList.appendChild(card);
-
-    // Add event listener for the watch video button
-    const watchBtn = document.getElementById(`watch-${module.id}`);
-    const videoContainer = document.getElementById(`video-container-${module.id}`);
-
-    watchBtn.addEventListener('click', () => {
-      // Toggle video display
-      if (videoContainer.innerHTML.trim() === '') {
-        // Extract video ID and embed
-        const videoId = module.videoLink.split('v=')[1];
-        videoContainer.innerHTML = `
-          <iframe width="100%" height="315" 
-                  src="https://www.youtube.com/embed/${videoId}" 
-                  title="${module.title}" 
-                  frameborder="0" allowfullscreen></iframe>
-        `;
-        watchBtn.textContent = 'Hide Video';
-      } else {
-        videoContainer.innerHTML = '';
-        watchBtn.textContent = 'Watch Video';
+      if (isCompleted) state = "completed";
+      else if (!firstIncompleteFound) {
+        state = "current";
+        firstIncompleteFound = true;
       }
-    });
-  });
 
-  updateProgress();
+      const card = document.createElement("div");
+      card.className = `card module ${state}`;
+
+      card.innerHTML = `
+        <div class="flex">
+          <div class="module-status ${state === "completed" ? "completed" : ""}">
+            ${state === "completed" ? "✓" : index + 1}
+          </div>
+
+          <div class="module-content" style="flex:1; margin-left:12px;">
+            <h3>${module.title}</h3>
+            <p>${module.description}</p>
+
+            <div class="module-meta">
+              <span>⏱️ ${module.estimated_minutes} min</span>
+            </div>
+
+            <div class="flex" style="gap:8px;">
+              ${
+                state === "current"
+                  ? `<button class="btn btn-primary" onclick="watchVideo('${module.id}')">Watch Video</button>`
+                  : state === "completed"
+                  ? `<button class="btn btn-secondary" disabled>Completed</button>`
+                  : `<button class="btn btn-outline" disabled>Locked</button>`
+              }
+            </div>
+
+            <div id="video-${module.id}" style="margin-top:12px;"></div>
+          </div>
+        </div>
+      `;
+
+      modulesList.appendChild(card);
+    });
+
+    updateProgress();
+  }
+
+ window.watchVideo = function(moduleId) {
+  const container = document.getElementById(`video-${moduleId}`);
+
+  // prevent duplicate embed
+  if (container.innerHTML.trim() !== "") return;
+
+  const module = modulesData.find(m => m.id === moduleId);
+  const videoId = getYouTubeID(module.videoLink);
+
+  container.innerHTML = `
+    <iframe width="100%" height="315"
+      src="https://www.youtube.com/embed/${videoId}"
+      frameborder="0" allowfullscreen></iframe>
+
+    <button class="btn btn-secondary" style="margin-top:12px"
+      onclick="completeModule('${moduleId}')">
+      Mark as Completed
+    </button>
+  `;
+};
+
+  window.completeModule = function(moduleId) {
+  if (!progress[moduleId]) {
+    progress[moduleId] = true;
+    localStorage.setItem("moduleProgress", JSON.stringify(progress));
+  }
+  renderModules();
+};
+
+  function updateProgress() {
+  const total = modulesData.length;
+
+  // count only modules that actually exist
+  const completed = modulesData.filter(
+    module => progress[module.id] === true
+  ).length;
+
+  const percent = Math.round((completed / total) * 100);
+
+  progressCountEl.textContent = `${completed}/${total}`;
+  progressFillEl.style.width = percent + "%";
+  progressPercentEl.textContent = `${percent}% Complete`;
 }
 
-  
+
+  renderModules();
+});
+
 </script>
 
 </body>
