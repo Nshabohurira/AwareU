@@ -3,12 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Page with Sidebar</title>
+<title>Get Help|AwareU</title>
 
 <style>
 :root {
   --primary: #1aa6a6;
+  --danger: #ef4444;
+  --text-muted: #6b7280;
+  --card: #ffffff;
+  --border: #e5e7eb;
 }
+
 
 /* Base */
 * { box-sizing: border-box; }
@@ -107,93 +112,291 @@ body {
 
 /* ================= Main Content ================= */
 .main-content {
-  margin-left: 260px;
-  padding: 30px;
-  min-height: 100vh;
+  max-width: 1100px;
+  margin-left: 230px;   /* 👈 push away from sidebar */
+  margin-right: auto;
+  padding: 40px 20px 80px;
 }
 
-/* ---------- Rest of your original page styles (kept and cleaned) ---------- */
-    .header {
-      padding: 2rem;
-      text-align: center;
-      background: linear-gradient(to right, #c7d2fe, #a7f3d0);
-       /*margin-top: 72px; give space for fixed header */
-    }
-    .header h1 { font-size: 2rem; font-weight: bold; margin-bottom: .5rem; }
-    .header p { font-size: 1rem; color: #4b5563; }
+/* ------------------ Header ------------------ */
+.hero {
+  background: linear-gradient(135deg, #E0F2FE, #ECFDF5);
+  padding: 60px 20px;
+  border-radius: 24px;
+  text-align: center;
+  margin-bottom: 50px;
+}
 
-    .crisis-card {
-      max-width: 700px;
-      margin: 2rem auto;
-      background: #fee2e2;
-      border: 2px solid #ef4444;
-      border-radius: 12px;
-      padding: 18px;
-      text-align: center;
-    }
-    .crisis-card svg { width: 30px; height: 30px; color: #ef4444; margin-bottom: 1rem; }
-    .crisis-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
-    .crisis-card p { margin-bottom: 1.25rem; color: #374151; }
-    .emergency-btn {
-      background-color: #ef4444;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .emergency-btn:hover { background-color: #dc2626; }
+.hero h1 {
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+}
 
-    .section-title { text-align: center; margin: 3rem 0 1.5rem; font-size: 1.5rem; font-weight: bold; }
+.hero p {
+  font-size: 1.05rem;
+  /* color: var(--text-muted); */
+  max-width: 600px;
+  margin: auto;
+}
 
-    .help-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 1rem;
-    }
-    @media (min-width: 768px) {
-      .help-grid { grid-template-columns: 1fr 1fr; }
-    }
-    .help-card {
-      background: white; border-radius: 12px; padding: 1.5rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: transform 0.3s;
-    }
-    .help-card:hover { transform: translateY(-5px); }
-    .help-card .icon { width: 56px; height: 56px; border-radius: 12px; display: flex; align-items:center; justify-content:center; color: white; margin-bottom: 1rem; }
-    .help-card h4 { margin: 0.5rem 0; font-size: 1.25rem; }
-    .help-card p { margin: 0.75rem 0 1rem; color: #4b5563; }
-    .help-card button { width: 100%; padding: 0.75rem; border-radius: 6px; cursor: pointer; font-weight: bold; border: 1px solid #d1d5db; }
-    .help-card button:hover { background: #35e670ff; }
-    .help-card.urgent { border: 2px solid #ef4444; }
-    .help-card.urgent button { background: #ef4444; color: white; border: none; }
-    .help-card.urgent button:hover { background: #dc2626; }
+/* ------------------ Crisis Card ------------------ */
+.crisis-card {
+  background: #FEE2E2;
+  border: 1.5px solid var(--danger);
+  border-radius: 20px;
+  padding: 28px;
+  text-align: center;
+  max-width: 750px;
+  margin: 0 auto 60px;
+}
 
-    .support-info {
-      padding: 40px 20px; text-align: center; background: #f9f9f9; margin: 50px;
-    }
-    .support-info .section-title { font-size: 24px; margin-bottom: 30px; color: #333; }
-    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-    .info-item {
-      background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-      transition: transform .3s ease, box-shadow .3s ease;
-    }
-    .info-item:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
-    .info-item .icon { margin-bottom: 15px; color: #4CAF50; }
-    .info-item h4 { margin: 10px 0; font-size: 18px; color: #222; }
-    .info-item p { font-size: 14px; color: #555; }
+.crisis-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+}
 
-    .support-section {
-      text-align: center; max-width: 800px; margin: 0 auto 4rem; background: linear-gradient(to right, #c7d2fe, #a7f3d0); padding: 20px; width: 80%; border-radius:8px; margin-top: 50px;
-    }
-    .support-section h4 { font-size: 1.25rem; margin-bottom: 1rem; }
-    .support-section p { color: #374151; line-height: 1.6; }
+.crisis-card p {
+  color: #374151;
+  margin-bottom: 18px;
+}
+
+.crisis-card button {
+  background: var(--danger);
+  color: white;
+  border: none;
+  padding: 14px 22px;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.crisis-card button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(239,68,68,.3);
+}
+
+/* ------------------ Section Title ------------------ */
+.section-title {
+  text-align: center;
+  font-size: 1.7rem;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+}
+
+/* ------------------ Help Cards ------------------ */
+.help-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+  margin-bottom: 70px;
+}
+
+.help-card {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 26px;
+  border: 1px solid var(--border);
+  transition: box-shadow .3s ease, transform .3s ease;
+}
+
+.help-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+
+.help-card .icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-bottom: 18px;
+}
+
+.help-card h4 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.help-card p {
+  font-size: .95rem;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+
+.help-card button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: transparent;
+  transition: all .25s ease;
+}
+
+.help-card button:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Urgent Card */
+.help-card.urgent {
+  border: 2px solid var(--danger);
+}
+
+.help-card.urgent button {
+  background: var(--danger);
+  color: white;
+  border: none;
+}
+
+.help-card.urgent button:hover {
+  background: #DC2626;
+}
+
+/* ------------------ Support Info ------------------ */
+.support-info {
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 50px 30px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.info-item h4 {
+  margin-bottom: 6px;
+}
+
+.info-item p {
+  font-size: .9rem;
+  color: var(--text-muted);
+}
+
+/* ------------------ Expectation Section ------------------ */
+.expectation {
+  background: linear-gradient(135deg, #EEF2FF, #ECFDF5);
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 850px;
+  margin: auto;
+  text-align: center;
+}
+
+.expectation h4 {
+  margin-bottom: 10px;
+}
+
+.expectation p {
+  font-size: .95rem;
+  color: #374151;
+}
+
+/* ------------------ Footer Line ------------------ */
+.footer-note {
+  margin-top: 60px;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* new */
+/* ================= Support Paths ================= */
+
+.support-paths {
+  max-width: 900px;
+  margin: 0 auto 80px;
+}
+
+.support-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.support-item {
+  display: flex;
+  gap: 20px;
+  padding: 26px;
+  background: var(--card);
+  border-radius: 18px;
+  border-left: 6px solid var(--primary);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.support-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+}
+
+.support-item.urgent {
+  border-left-color: var(--danger);
+  background: #fff5f5;
+}
+
+.support-icon {
+  font-size: 32px;
+  margin-top: 6px;
+}
+
+.support-content h3 {
+  margin: 0 0 6px;
+  font-size: 1.25rem;
+}
+
+.support-content p {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.support-content button {
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.support-content button:hover {
+  background: #159191;
+}
+
+.support-item.urgent button {
+  background: var(--danger);
+}
+
+.support-item.urgent button:hover {
+  background: #dc2626;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .support-item {
+    flex-direction: column;
+  }
+}
+
 
 
 /* ================= Mobile Behaviour ================= */
@@ -235,11 +438,11 @@ body {
 <aside class="sidebar">
   <h2 class="logo">AwareU</h2>
   <nav>
-    <a href="dashboard.html">Dashboard</a>
-    <a href="modules.html" class="active">Learning Modules</a>
+    <a class="active" href="dashboard.html">Dashboard</a>
     <a href="resources.html">Resources</a>
+    <a href="modules.html">Learning Modules</a>
     <a href="quizzes.html">Quizzes</a>
-    <a href="chat.html">Chat</a>
+    <a href="chatbot.html">Chat</a>
     <a href="events.html">Events</a>
     <a href="contact.html">Get Help</a>
     <a href="progress.html">My Progress</a>
@@ -249,128 +452,107 @@ body {
 </aside>
 
 <!-- Main Content -->
- <section class="main-content">
-<section class="header">
+ <main class="main-content">
+
+  <!-- Hero -->
+  <section class="hero">
     <h1>Get Support & Help</h1>
-    <p>You don't have to face this alone. Choose the type of support that feels right for you.</p>
+    <p>You don’t have to face everything on your own. Support is here, and you can take things one step at a time.</p>
   </section>
 
-  <!-- Crisis Help -->
+  <!-- Crisis -->
   <section class="crisis-card">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12A9 9 0 113 12a9 9 0 0118 0z"/>
-    </svg>
-    <h3>Need Help Right Now?</h3>
-    <p>If you're in crisis or having thoughts of self-harm, please reach out immediately.</p>
-    <button class="emergency-btn" onclick="window.location.href='tel:+256800111222'">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.95.69l1.52 4.55a1 1 0 01-.5 1.21l-2.26 1.13a11.05 11.05 0 005.52 5.52l1.13-2.26a1 1 0 011.21-.5l4.55 1.52a1 1 0 01.69.95V19a2 2 0 01-2 2h-1C9.16 21 3 14.84 3 7V5z"/>
-      </svg>
-      Call Crisis Line: +256-800-111-222
+    <h3>Need Immediate Support?</h3>
+    <p>If you’re feeling overwhelmed or unsafe, help is available right now. You deserve care and understanding.</p>
+    <button onclick="window.location.href='tel:+256800111222'">
+      Talk to someone now: +256-800-111-222
     </button>
   </section>
 
-  <!-- Help Options -->
-  <h2 class="section-title">Choose Your Support Option</h2>
-  <div class="help-grid">
-    <div class="help-card">
-      <div class="icon" style="background:#3b82f6">
-        <!-- File Icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="28" height="28">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h6v6H9z M5 20h14a2 2 0 002-2V7a2 2 0 00-.59-1.41l-5-5A2 2 0 0014 0H5a2 2 0 00-2 2v16a2 2 0 002 2z"/>
-        </svg>
+  <!-- Options -->
+  <h2 class="section-title">Choose the Support That Feels Right</h2>
+  <p class="section-subtitle">There’s no pressure — start where you feel most comfortable.</p>
+  <section class="support-paths">
+
+  <div class="support-list">
+
+    <div class="support-item urgent">
+      <div class="support-icon">📞</div>
+      <div class="support-content">
+        <h3>Immediate Crisis Support</h3>
+        <p>
+          If you’re feeling unsafe or overwhelmed, speak to someone right now.
+          This service is available 24/7.
+        </p>
+        <button onclick="window.location.href='tel:+256800111222'">
+          Talk to someone now
+        </button>
       </div>
-      <h4>Anonymous Help Request</h4>
-      <p>Submit a confidential help request. Our counselors will respond within 24 hours.</p>
-      <button onclick="window.location.href='request.html'">Submit Request</button>
     </div>
 
-    <div class="help-card">
-      <div class="icon" style="background:#10b981">
-        <!-- Chat Icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="28" height="28">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.8L3 20l1.8-4A7.96 7.96 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-        </svg>
+    <div class="support-item">
+      <div class="support-icon">💬</div>
+      <div class="support-content">
+        <h3>Live Chat Support</h3>
+        <p>
+          Chat in real time with a trained peer supporter or AI assistant.
+          You control what you share.
+        </p>
+        <button onclick="window.location.href='bot.html'">
+          Start a private chat
+        </button>
       </div>
-      <h4>Live Chat Support</h4>
-      <p>Chat with a trained peer counselor or AI assistant for immediate support.</p>
-      <button onclick="window.location.href='chatbot.html'">Start Chat</button>
     </div>
 
-    <div class="help-card">
-      <div class="icon" style="background:#8b5cf6">
-        <!-- User Check -->
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="28" height="28">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A7 7 0 1112 19a7 7 0 01-6.879-1.196zM15 12l2 2 4-4"/>
-        </svg>
+    <div class="support-item">
+      <div class="support-icon">📝</div>
+      <div class="support-content">
+        <h3>Anonymous Help Request</h3>
+        <p>
+          Send a confidential message about what you’re going through.
+          A counselor will respond within 24 hours.
+        </p>
+        <button onclick="window.location.href='request.html'">
+          Send a confidential request
+        </button>
       </div>
-      <h4>Professional Counselors</h4>
-      <p>Connect with licensed counselors and mental health professionals.</p>
-      <button onclick="window.location.href='counselor.html'">View Contacts</button>
     </div>
 
-    <div class="help-card urgent">
-      <div class="icon" style="background:#ef4444">
-        <!-- Phone -->
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="28" height="28">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.95.69l1.52 4.55a1 1 0 01-.5 1.21l-2.26 1.13a11.05 11.05 0 005.52 5.52l1.13-2.26a1 1 0 011.21-.5l4.55 1.52a1 1 0 01.69.95V19a2 2 0 01-2 2h-1C9.16 21 3 14.84 3 7V5z"/>
-        </svg>
+    <div class="support-item">
+      <div class="support-icon">👩‍⚕️</div>
+      <div class="support-content">
+        <h3>Professional Counselors</h3>
+        <p>
+          View contact details for licensed mental health professionals
+          available to support you.
+        </p>
+        <button onclick="window.location.href='counselor.html'">
+          View counselor contacts
+        </button>
       </div>
-      <h4>Crisis Helpline</h4>
-      <p>Available 24/7 for immediate crisis intervention and emergency support.</p>
-      <button onclick="window.location.href='tel:+256800111222'">Call Now: +256-800-111-222</button>
     </div>
+
   </div>
+</section>
 
-  <!-- Support Info -->
-  <div class="support-info">
-    <h3 class="section-title">Why Choose Our Support?</h3>
-    <div class="info-grid">
-      <div class="info-item">
-        <div class="icon">
-          <!-- Clock -->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="32" height="32">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z"/>
-          </svg>
-        </div>
-        <h4>24/7 Support</h4>
-        <p>Someone is always available to help</p>
-      </div>
 
-      <div class="info-item">
-        <div class="icon">
-          <!-- User -->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="32" height="32">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A7 7 0 1112 19a7 7 0 01-6.879-1.196z"/>
-          </svg>
-        </div>
-        <h4>Confidential</h4>
-        <p>Your privacy is completely protected</p>
-      </div>
-
-      <div class="info-item">
-        <div class="icon">
-          <!-- Alert -->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="32" height="32">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12A9 9 0 113 12a9 9 0 0118 0z"/>
-          </svg>
-        </div>
-        <h4>No Judgment</h4>
-        <p>Safe space free from stigma</p>
-      </div>
-    </div>
-
-    <div class="support-section">
-      <h4>What to Expect</h4>
+    
+    <div class="expectation">
+      <h4>What You Can Expect</h4>
       <p>
-        Our support team consists of trained counselors, peer supporters, and mental health professionals. 
-        All conversations are confidential, and we follow strict privacy guidelines. 
-        Whether you're struggling with substance use, considering getting help, or supporting someone else, 
-        we're here to provide compassionate, non-judgmental support.
+        Our support team includes trained counselors and peer supporters who genuinely care about your well-being.
+        You don’t need the right words — just come as you are.
       </p>
     </div>
-  </div>
   </section>
+
+  <p class="footer-note">
+    You are not weak for needing support. You are human — and help is here when you’re ready.
+  </p>
+
+</main>
+
+ 
 
 
 <script>

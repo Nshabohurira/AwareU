@@ -1,270 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Safespace Hub | Register</title>
-  <style>
-    :root {
-      --nav-g1: #4E54C8;
-      --nav-g2: #9297F8;
-      --white: #ffffff;
-      --text: #1f2937;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Safespace Hub | Register</title>
+<style>
+  :root {
+    --nav-g1: #4E54C8;
+    --nav-g2: #9297F8;
+    --white: #ffffff;
+    --text: #1f2937;
+    --bg-light: #F4F7FF;
+    --bg-soft: #EEF1FF;
+    --accent: #5C6BF5;
+    --accent-hover: #4A57D6;
+    --accent-soft: #C8CCFF;
+    --error: #E57373;
+    --success: #3CC88F;
+    --muted-text: #6B7280;
+  }
 
-      --bg-light: #F4F7FF;
-      --bg-soft: #EEF1FF;
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-      --accent: #5C6BF5;
-      --accent-hover: #4A57D6;
-      --accent-soft: #C8CCFF;
+  body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background: var(--bg-light);
+  }
 
-      --error: #E57373;
-      --success: #3CC88F;
-      --muted-text: #6B7280;
-    }
+  .container {
+    display: flex;
+    min-height: 100vh;
+  }
 
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, var(--bg-light), var(--bg-soft));
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  /* Left image section */
+  .register-image {
+    flex: 1;
+    background: url('images/login.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    position: relative;
+  }
 
-    .card {
-      background: var(--white);
-      width: 420px;
-      padding: 35px;
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-      text-align: center;
-    }
+  .register-image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+  }
 
-    .icon {
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, var(--nav-g1), var(--nav-g2));
-      margin: 0 auto;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 28px;
-      font-weight: bold;
-    }
+  .register-image-text {
+    position: relative;
+    text-align: center;
+    max-width: 250px;
+    z-index: 1;
+  }
 
-    h2 {
-      margin-top: 20px;
-      color: var(--text);
-    }
+  .register-image-text h1 {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    font-weight: bold;
+  }
 
-    p.subtitle {
-      margin-top: -5px;
-      color: var(--muted-text);
-      font-size: 14px;
-    }
+  .register-image-text p {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
 
-    .form-group {
-      text-align: left;
-      margin-top: 18px;
-    }
+  /* Right form section */
+  .register-form {
+    flex: 1;
+    background: var(--white);
+    padding: 50px 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  }
 
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-      color: var(--text);
-      font-size: 14px;
-    }
+  .register-form .icon {
+    width: 40px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--nav-g1), var(--nav-g2));
+    margin: 0 auto;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+  }
 
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      outline: none;
-      font-size: 14px;
-      transition: 0.2s;
-    }
+  .register-form h2 {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--text);
+  }
 
-    input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-soft);
-    }
+  .register-form p.subtitle {
+    text-align: center;
+    color: var(--muted-text);
+    font-size: 14px;
+    margin-bottom: 25px;
+  }
 
-    .error-text {
-      color: var(--error);
-      font-size: 13px;
-      margin-top: 3px;
-      display: none;
-    }
+  .form-group { margin-bottom: 18px; }
+  label { display: block; margin-bottom: 6px; font-weight: bold; color: var(--text); font-size: 14px; }
+  input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    outline: none;
+    font-size: 14px;
+    transition: 0.2s;
+  }
+  input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .error-text { color: var(--error); font-size: 13px; margin-top: 3px; display: none; }
 
-    .btn {
-      margin-top: 25px;
-      width: 100%;
-      background: var(--accent);
-      color: white;
-      padding: 12px;
-      border: none;
-      font-size: 15px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+  .btn {
+    margin-top: 25px;
+    width: 100%;
+    background: var(--accent);
+    color: white;
+    padding: 12px;
+    border: none;
+    font-size: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .btn:hover { background: var(--accent-hover); }
 
-    .btn:hover {
-      background: var(--accent-hover);
-    }
+  .login-links {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+    color: var(--muted-text);
+  }
+  .login-links a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: bold;
+  }
 
-    .login-links {
-      margin-top: 15px;
-      font-size: 14px;
-      color: var(--muted-text);
-    }
-
-    .login-links a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: bold;
-    }
-  </style>
+  /* Responsive */
+  @media (max-width: 900px) {
+    .container { flex-direction: column; }
+    .register-image { display: none; }
+    .register-form { flex: 1; width: 100%; padding: 40px 20px; }
+  }
+</style>
 </head>
 <body>
-  <div class="card">
-    <div class="icon">♡</div>
-    <h2>Create Account</h2>
-    <p class="subtitle">Join Safespace Hub today</p>
-
-    <form id="registerForm" novalidate>
-      <div class="form-group">
-        <label>First Name</label>
-        <input type="text" id="fname" placeholder="John" required />
-        <div class="error-text" id="fnameError">First name is required.</div>
+  <div class="container">
+    <!-- Left image section -->
+    <div class="register-image">
+      <div class="register-image-text">
+        <h1>Welcome to AwareU Hub</h1>
+        <p>Your safe and supportive community is just a few clicks away.</p>
       </div>
+    </div>
 
-      <div class="form-group">
-        <label>Last Name</label>
-        <input type="text" id="lname" placeholder="Doe" required />
-        <div class="error-text" id="lnameError">Last name is required.</div>
+    <!-- Right form section -->
+    <div class="register-form">
+      <div class="icon">♡</div>
+      <h2>Create Account</h2>
+      <p class="subtitle">Join AwareU Hub today</p>
+
+      <form id="registerForm" novalidate>
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="fname" placeholder="John" required />
+          <div class="error-text" id="fnameError">First name is required.</div>
+        </div>
+
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="lname" placeholder="Doe" required />
+          <div class="error-text" id="lnameError">Last name is required.</div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="email" placeholder="your.email@example.com" required />
+          <div class="error-text" id="emailError">Please enter a valid email.</div>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" placeholder="••••••••" required minlength="6" />
+          <div class="error-text" id="passwordError">Password must be at least 6 characters.</div>
+        </div>
+
+        <button type="submit" class="btn">Create Account</button>
+      </form>
+
+      <div class="login-links">
+        Already have an account? <a href="login.html">Login</a>
       </div>
-
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="email" placeholder="your.email@example.com" required />
-        <div class="error-text" id="emailError">Please enter a valid email.</div>
-      </div>
-
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="password" placeholder="••••••••" required minlength="6" />
-        <div class="error-text" id="passwordError">Password must be at least 6 characters.</div>
-      </div>
-
-      <button type="submit" class="btn">Create Account</button>
-    </form>
-
-    <div class="login-links">
-      Already have an account? <a href="login.html">Login</a>
     </div>
   </div>
 
-  <script src="https://unpkg.com/@supabase/supabase-js"></script>
-<script>
-  const supabaseUrl = "https://vxssijrhqzbduajohivi.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ4c3NpanJocXpiZHVham9oaXZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NjIwMDUsImV4cCI6MjA4NTEzODAwNX0.O6LYJ1ZQo-P-Yqa2MBiOepTTNK1GULpD_HFEmB5iFvo";
-  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-</script>
-
-
   <script>
     const form = document.getElementById('registerForm');
+    const fname = document.getElementById('fname');
+    const lname = document.getElementById('lname');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const fnameError = document.getElementById('fnameError');
+    const lnameError = document.getElementById('lnameError');
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
 
-const fname = document.getElementById('fname');
-const lname = document.getElementById('lname');
-const email = document.getElementById('email');
-const password = document.getElementById('password');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      let valid = true;
 
-const fnameError = document.getElementById('fnameError');
-const lnameError = document.getElementById('lnameError');
-const emailError = document.getElementById('emailError');
-const passwordError = document.getElementById('passwordError');
+      if (!fname.value.trim()) { fnameError.style.display = 'block'; valid = false; } else { fnameError.style.display = 'none'; }
+      if (!lname.value.trim()) { lnameError.style.display = 'block'; valid = false; } else { lnameError.style.display = 'none'; }
+      if (!email.value || !email.value.includes('@')) { emailError.style.display = 'block'; valid = false; } else { emailError.style.display = 'none'; }
+      if (!password.value || password.value.length < 6) { passwordError.style.display = 'block'; valid = false; } else { passwordError.style.display = 'none'; }
 
-form.addEventListener('submit', async function(e) {
-  e.preventDefault();
-  let valid = true;
-
-  // --------- Validation ---------
-  if (!fname.value.trim()) {
-    fnameError.style.display = 'block';
-    valid = false;
-  } else {
-    fnameError.style.display = 'none';
-  }
-
-  if (!lname.value.trim()) {
-    lnameError.style.display = 'block';
-    valid = false;
-  } else {
-    lnameError.style.display = 'none';
-  }
-
-  if (!email.value || !email.value.includes('@')) {
-    emailError.style.display = 'block';
-    valid = false;
-  } else {
-    emailError.style.display = 'none';
-  }
-
-  if (!password.value || password.value.length < 6) {
-    passwordError.style.display = 'block';
-    valid = false;
-  } else {
-    passwordError.style.display = 'none';
-  }
-
-  // --------- If valid, create Supabase account ---------
-  if (valid) {
-    try {
-      // 1. Create account in Supabase Auth
-      const { data, error } = await supabase.auth.signUp({
-        email: email.value,
-        password: password.value
-      });
-
-      if (error) {
-        alert("Error creating account: " + error.message);
-        return;
+      if (valid) {
+        alert(`Account created successfully!\nWelcome to Safespace Hub, ${fname.value.trim()}!`);
+        form.reset();
       }
-
-      // 2. Insert first and last name in profiles table
-      const { error: profileError } = await supabase.from("profiles").insert([
-        {
-          id: data.user.id,
-          first_name: fname.value.trim(),
-          last_name: lname.value.trim()
-        }
-      ]);
-
-      if (profileError) {
-        alert("Error saving profile: " + profileError.message);
-        return;
-      }
-
-      // 3. Success message
-      alert(`Account created successfully!\nWelcome to Safespace Hub, ${fname.value.trim()}!`);
-      form.reset(); // clear form
-
-    } catch (err) {
-  console.error(err); // this prints details to browser console
-  alert("Unexpected error: " + err.message);
-}
-
-  }
-});
-
+    });
   </script>
 </body>
 </html>

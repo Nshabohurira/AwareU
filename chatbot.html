@@ -1,142 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Drug Awareness Chatbot</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Help Chatbot | AwareU</title>
+<style>
+/* ================= Modal Overlay ================= */
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f9fafb;
+}
 
-    .chat-container {
-      width: 350px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
+.chatbot-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
 
-    .chat-header {
-      background: #4CAF50;
-      color: #fff;
-      padding: 15px;
-      text-align: center;
-      font-weight: bold;
-    }
+/* ================= Chatbot Container ================= */
+.chatbot-container {
+  width: 420px;
+  max-width: 90%;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: fadeIn 0.3s ease;
+}
 
-    .chat-messages {
-      flex: 1;
-      padding: 15px;
-      overflow-y: auto;
-    }
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.9);}
+  to {opacity: 1; transform: scale(1);}
+}
 
-    .chat-input {
-      display: flex;
-      border-top: 1px solid #ddd;
-    }
+/* ================= Header ================= */
+.chatbot-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, #e6fffa, #ecfdf5);
+  border-bottom: 1px solid #e5e7eb;
+}
 
-    .chat-input input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      outline: none;
-    }
+.chatbot-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #1aa6a6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+}
 
-    .chat-input button {
-      padding: 10px 15px;
-      border: none;
-      background: #4CAF50;
-      color: white;
-      cursor: pointer;
-    }
+.chatbot-header h4 {
+  margin: 0;
+  font-size: 1rem;
+}
 
-    .message {
-      margin-bottom: 10px;
-      display: flex;
-    }
+.chatbot-header span {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
 
-    .message.user {
-      justify-content: flex-end;
-    }
+.close-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
 
-    .message.bot {
-      justify-content: flex-start;
-    }
+/* ================= Messages ================= */
+.chatbot-messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  background: #f9fafb;
+}
 
-    .message p {
-      padding: 10px;
-      border-radius: 10px;
-      max-width: 70%;
-    }
+.message {
+  max-width: 80%;
+  margin-bottom: 12px;
+  line-height: 1.45;
+  font-size: 0.95rem;
+  opacity: 0;
+  animation: slideFade 0.3s forwards;
+}
 
-    .message.user p {
-      background: #DCF8C6;
-    }
+@keyframes slideFade {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
 
-    .message.bot p {
-      background: #eee;
-    }
-  </style>
+.message.bot {
+  background: #e7f6f6;
+  padding: 14px;
+  border-radius: 16px 16px 16px 6px;
+}
+
+.message.user {
+  background: #1aa6a6;
+  color: white;
+  padding: 14px;
+  border-radius: 16px 16px 6px 16px;
+  margin-left: auto;
+}
+
+/* Typing indicator */
+.typing {
+  font-style: italic;
+  color: #6b7280;
+}
+
+/* ================= Quick Buttons ================= */
+.quick-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.quick-buttons button {
+  flex: 1 1 48%;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: none;
+  background: #1aa6a6;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.25s;
+}
+
+.quick-buttons button:hover {
+  background: #149494;
+}
+</style>
 </head>
 <body>
 
-<div class="chat-container">
-  <div class="chat-header">Drug Awareness Bot</div>
-  <div class="chat-messages" id="chatMessages"></div>
-  <div class="chat-input">
-    <input type="text" id="userInput" placeholder="Type your question...">
-    <button onclick="sendMessage()">Send</button>
+<!-- Chatbot Modal -->
+<div class="chatbot-overlay" id="chatbotOverlay">
+  <div class="chatbot-container">
+    <div class="chatbot-header">
+      <div class="chatbot-avatar">💙</div>
+      <div>
+        <h4>AwareU Support</h4>
+        <span>We’re here with you</span>
+      </div>
+      <button class="close-btn" onclick="closeChat()">×</button>
+    </div>
+
+    <div class="chatbot-messages" id="chatMessages">
+      <div class="message bot">
+        <p>Hello 🤍 I’m here to listen. You can choose any question below to start:</p>
+      </div>
+    </div>
+
+    <div class="quick-buttons" id="quickButtons">
+      <button data-choice="1">I feel stressed</button>
+      <button data-choice="2">I need someone to talk to</button>
+      <button data-choice="3">How do I improve my mood?</button>
+      <button data-choice="4">Tips for handling anxiety</button>
+      <button data-choice="5">Other concerns</button>
+    </div>
   </div>
 </div>
 
 <script>
-  const responses = {
-    "hello": "hello there, how are you.",
-    "i'm okay ": "Nice, Anything bothering you today",
-    
-    
-  };
+const messages = document.getElementById("chatMessages");
+const buttons = document.getElementById("quickButtons");
 
-  function getBotResponse(message) {
-    message = message.toLowerCase();
-    return responses[message] || "I'm not sure about that. Please contact a counselor or type another question.";
+// Structured conversation tree
+const conversation = {
+  "1": {
+    reply: "I understand, feeling stressed can be tough. Take deep breaths and short breaks.",
+    followups: ["Want some quick stress relief tips?", "No, thanks"]
+  },
+  "2": {
+    reply: "Sure, I’m here to listen. Share whatever you feel comfortable with.",
+    followups: ["I want to talk more", "Maybe later"]
+  },
+  "3": {
+    reply: "To improve your mood, try doing something small that you enjoy or practice gratitude.",
+    followups: ["Give me examples", "I know, thanks"]
+  },
+  "4": {
+    reply: "Handling anxiety can be easier with calm breathing, mindfulness, or talking to someone you trust.",
+    followups: ["Teach me mindfulness", "I’ll try"]
+  },
+  "5": {
+    reply: "It’s okay to have other concerns. Take your time and share what’s on your mind.",
+    followups: ["I want to share", "Not now"]
   }
+};
 
-  function sendMessage() {
-    const input = document.getElementById("userInput");
-    const message = input.value.trim();
-    if (!message) return;
+// Add message
+function addMessage(text, sender="bot") {
+  const msg = document.createElement("div");
+  msg.className = `message ${sender}`;
+  msg.innerHTML = `<p>${text}</p>`;
+  messages.appendChild(msg);
+  messages.scrollTop = messages.scrollHeight;
+}
 
-    // Display user message
-    const chatMessages = document.getElementById("chatMessages");
-    const userMsg = document.createElement("div");
-    userMsg.className = "message user";
-    userMsg.innerHTML = `<p>${message}</p>`;
-    chatMessages.appendChild(userMsg);
+// Typing simulation
+function botReply(choice) {
+  const typing = document.createElement("div");
+  typing.className = "message bot typing";
+  typing.innerHTML = `<p>AwareU is typing...</p>`;
+  messages.appendChild(typing);
+  messages.scrollTop = messages.scrollHeight;
 
-    // Get bot response
-    const botReply = getBotResponse(message);
-    const botMsg = document.createElement("div");
-    botMsg.className = "message bot";
-    botMsg.innerHTML = `<p>${botReply}</p>`;
-    chatMessages.appendChild(botMsg);
+  setTimeout(() => {
+    typing.remove();
+    addMessage(conversation[choice].reply);
 
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-    input.value = "";
+    // Add follow-up buttons if available
+    if(conversation[choice].followups){
+      const followupDiv = document.createElement("div");
+      followupDiv.className = "quick-buttons";
+      conversation[choice].followups.forEach((text, idx)=>{
+        const btn = document.createElement("button");
+        btn.innerText = text;
+        btn.dataset.choice = choice + "-" + idx;
+        followupDiv.appendChild(btn);
+      });
+      messages.appendChild(followupDiv);
+      messages.scrollTop = messages.scrollHeight;
+    }
+  }, 800);
+}
+
+// Handle button clicks
+buttons.addEventListener("click", (e)=>{
+  if(e.target.tagName === "BUTTON"){
+    const choice = e.target.dataset.choice;
+    addMessage(e.target.innerText, "user");
+
+    // Remove old buttons
+    e.target.parentElement.remove();
+
+    // Split choice for follow-ups
+    const mainChoice = choice.split("-")[0];
+    botReply(mainChoice);
   }
+});
 
-  // Optional: Send message on Enter key
-  document.getElementById("userInput").addEventListener("keypress", function(e) {
-    if (e.key === "Enter") sendMessage();
-  });
+// Close chat
+function closeChat(){
+  document.getElementById("chatbotOverlay").style.display = "none";
+}
+
+// Open chat immediately
+document.getElementById("chatbotOverlay").style.display = "flex";
 </script>
 
 </body>
